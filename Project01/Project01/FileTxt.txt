@@ -1,0 +1,33 @@
+<students>
+   <student ID="1001">
+      <firstname>
+        <nickname type="normalnick">Dash</nickname>
+        <realname>Dhanusha</realname>
+      </firstname>
+      <lastname>Siriwardane</lastname>
+   </student>
+   
+   <student ID="1002">
+      <firstname>
+          <nickname type="goodnick">Ganga</nickname>
+          <realname>Gagana</realname>
+      </firstname>
+      <lastname>Perera</lastname>
+   </student>
+   
+   <student ID="1003">
+      <firstname>
+         <nickname type="badnick">Sach</nickname>
+         <realname>Sachin</realname>
+      </firstname>
+      <lastname>Dhanushka</lastname>
+   </student>
+   
+   <student ID="1004">
+       <firstname>
+       <nickname type="excellentnick">Hash</nickname>
+       <realname>Hasitha</realname>
+       </firstname>
+      <lastname>Silva</lastname>
+   </student>
+</students>
