@@ -1,34 +1,21 @@
-package newpackage;
-
-import java.io.*;
+package implementation;
 import java.util.*;
+import java.io.*;
 public class FileClass {
-	
-	static private List<String> arr;
+
+	private List<String> arr; //ArrayList to Hold File Contents
 	
 	public void readFile(){
 		
-	}
-	
-	public void arrayListAssignment(){
-		
-		
-	}
-	
-	public void readArrayList(){
-		
-	}
-	
-	public static void main(String [] args){
-
-		 try {
+           try {
 			 
 			 String filename="Student.xml";
 			 File a=new File(filename);
 
 			if(!filename.endsWith("xml")){
 				 System.out.println("Invalid XML File!!!");
-			}
+			   }
+			
 			 Scanner sc=new Scanner(a);
 			 sc.useDelimiter("\n");
 			 
@@ -57,24 +44,27 @@ public class FileClass {
 				 }
 			 }
 			 			 
-			 for(int x=0; x<arr.size(); x++){
+			/* for(int x=0; x<arr.size(); x++){
 					 System.out.println(arr.get(x));
-			 }
-			 			 
-			 //--------- ARRAYLIST ELEMENT SEPARATION ------------------
-			 
+			 }		*/	 			 			 
 			  
-		}
+		   }
 		 
-		 catch(FileNotFoundException ex){
-			 
+		   catch(FileNotFoundException ex){
 			 System.out.println("File couldn't be found ! Please check the below error information \n");
 			 ex.printStackTrace();
-		 }
+			 
+		    }
 		 
-		 catch(Exception ex){
+		   catch(Exception ex){
 			 ex.printStackTrace();
-		 }
-		 
+		   }
+
 	}
+	
+	public List<String> getFileContents(){
+		
+		return this.arr;
+	}
+	
 }

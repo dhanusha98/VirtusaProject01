@@ -1,26 +1,27 @@
 package newpackage;
 import java.util.*;
-import java.lang.*;
-
 public class test {
 
-	 public static void main(String [] args){
-		 
-		/*String [] arr={"<students>","<firstname>","</firstname>","</students>"}; 
+	public static void main(String[] args) {
 		
-		ArrayList<String> arrlist=new ArrayList<String>(Arrays.asList(arr));
-		Iterator<String> iterator=arrlist.iterator();
-		String k="";
-		while(iterator.hasNext()){
-			
-			if(iterator.next().startsWith("<")){
-				
-				k+=""+iterator.next();
-			}
-		}
-		
-		System.out.println(k);
-		*/
+		  List<String> arr=new ArrayList<String>();
+		  
+		  arr.add("<student>");
+		  arr.add("<firstname>");
+		  arr.add("<nickname>");
+		  arr.add("</nickname>");
+		  arr.add("</firstname>");
+		  arr.add("</student>");
+		  
+		  Iterator<String> iterator=arr.iterator();
+		  
+		  while(iterator.hasNext()){
+			  
+			   
+		  }
+		  
 
-	 }
+		 
+	}
+
 }
