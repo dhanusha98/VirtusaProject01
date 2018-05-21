@@ -121,26 +121,18 @@ public class Element implements ElementInterface{
 				  String [] splitter=list.get(x).split(" ");
 					
 				 if(splitter[0].equals(element)){
-					 //System.out.println(list.get(x));
 					 matchList.add(list.get(x));
-					 
 				 }
-				
 			  }
-		      
 			  else if(list.get(x).startsWith(element)){
-				  
-				  //System.out.println(list.get(x));
 				  matchList.add(list.get(x));
 			  }
 		  }
 	      
 		  if(matchList.size()>0) {
-			  
 			  Iterator<String> itr=matchList.iterator();
 			  
 			  while(itr.hasNext()){
-				  
 				  System.out.println(itr.next());
 			  }
 			  
@@ -155,7 +147,7 @@ public class Element implements ElementInterface{
 	  
       public void getElementByName(String elementName, int index){
 		  
-		  //RETRIEVE ALL MATCHING ELEMENTS
+		  //RETRIEVE ONLY SINGLE MATCHING ELEMENT BASED ON GIVEN INDEX
 		  
 		  String element="<"+elementName;
 		  List<String> matchList=new ArrayList<String>();
@@ -185,13 +177,11 @@ public class Element implements ElementInterface{
 			    for(int x=0; x<matchList.size(); x++){
 			    	
 			    	if(index < 0 || index > matchList.size()) {
-			    		
 			    		System.out.println("Invalid Index!");
 			    		break;
 			    	}
 			    	
 			    	else{
-			    		
 			    		if(x==index){			 
 			    			System.out.println(matchList.get(x));
 			    		}
@@ -209,7 +199,37 @@ public class Element implements ElementInterface{
 	  
 	  public void getElementAttributes(String elementName){
 		  
+		  String element="<"+elementName;
 		  
+		  Iterator<String> iterator=list.iterator();
+		  
+		  while(iterator.hasNext()){			  
+			  
+			  if(iterator.next().contains(" ") && iterator.next().startsWith(element)){
+				  
+				  String [] splitter=iterator.next().split(" ");
+				  List<String> arrSplit=new ArrayList<String>(Arrays.asList(splitter));
+				  
+				  arrSplit.remove(0);
+
+				  //NEED TO STATT FROM HERE *******
+				  for(int x=0; x<arrSplit.size(); x++) {
+					  
+	                  arrSplit.get(x).replace(">","");
+					  
+				  }
+				 
+				  for(int x=0; x<arrSplit.size(); x++){
+					  
+					  System.out.println(arrSplit.get(x));
+				  }
+			  }
+			  
+			  else {
+				  
+				  
+			  }
+		  }
 	  }
 	  
         public void getChildElements(String parentElement){
@@ -280,6 +300,7 @@ public class Element implements ElementInterface{
 		  //a.getChildElements("firstname");
 		  //a.getElementAttributes("students");
 		  
-		  a.getElementByName("lastname",5);
+		  //a.getElementByName("lastname",5);
+		  a.getElementAttributes("student");
 	  }
 }
