@@ -1,16 +1,28 @@
 package implementation;
 
+import java.util.*;
 public class test {
-	
-	public static void main(String [] args){
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
 		
-		String a="Hello World from SL";
+		List<String> arraylist=new ArrayList<String>();
+		arraylist.add("<student>");
+		arraylist.add("<firstname ID>");
+		arraylist.add("</firstname>");
+		arraylist.add("</student>");
 		
-		String [] arr=a.split(" ",3);
-		
-		for(String ar: arr){
+		for(int x=0; x<arraylist.size(); x++){
 			
-			System.out.println(ar);
+			if(arraylist.get(x).contains(" ")) {
+				
+				System.out.println(arraylist.get(x));
+				break;
+			}
+				
+			
 		}
 	}
 

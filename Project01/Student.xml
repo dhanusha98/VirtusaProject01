@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <students>
-   <student ID="1001">
+   <student ID="1001" K="">
       <firstname>
         <nickname type="normalnick">Dash</nickname>
         <realname>Dhanusha</realname>
@@ -8,7 +8,7 @@
       <lastname>Siriwardane</lastname>
    </student>
    
-   <student ID="1002">
+   <student ID="1002" K="">
       <firstname>
           <nickname type="goodnick">Ganga</nickname>
           <realname>Gagana</realname>
@@ -16,7 +16,7 @@
       <lastname>Perera</lastname>
    </student>
    
-   <student ID="1003">
+   <student ID="1003" K="">
       <firstname>
          <nickname type="badnick">Sach</nickname>
          <realname>Sachin</realname>
@@ -24,7 +24,7 @@
       <lastname>Dhanushka</lastname>
    </student>
    
-   <student ID="1004">
+   <student ID="1004" K="">
        <firstname>
        <nickname type="excellentnick">Hash</nickname>
        <realname>Hasitha</realname>

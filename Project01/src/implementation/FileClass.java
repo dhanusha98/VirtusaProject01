@@ -46,7 +46,7 @@ public class FileClass {
 			 			 
 			/* for(int x=0; x<arr.size(); x++){
 					 System.out.println(arr.get(x));
-			 }		*/	 			 			 
+			 }		*/ 			 			 
 			  
 		   }
 		 
@@ -67,4 +67,13 @@ public class FileClass {
 		return this.arr;
 	}
 	
+   
+	public static void main(String [] args){
+		
+		FileClass f=new FileClass();
+		
+		f.readFile();
+		
+		f.getFileContents();
+	}
 }
