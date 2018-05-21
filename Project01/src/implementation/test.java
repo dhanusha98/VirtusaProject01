@@ -1,6 +1,8 @@
 package implementation;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 public class test {
 
 	/**
@@ -8,22 +10,19 @@ public class test {
 	 */
 	public static void main(String[] args) {
 		
-		List<String> arraylist=new ArrayList<String>();
-		arraylist.add("<student>");
-		arraylist.add("<firstname ID>");
-		arraylist.add("</firstname>");
-		arraylist.add("</student>");
-		
-		for(int x=0; x<arraylist.size(); x++){
-			
-			if(arraylist.get(x).contains(" ")) {
-				
-				System.out.println(arraylist.get(x));
-				break;
-			}
-				
-			
-		}
+		 List<String> arr=new ArrayList<String>();
+		 arr.add("100");
+		 arr.add("200");
+		 arr.add("300");
+		 arr.add("400");
+		 
+		 ListIterator<String> itr=arr.listIterator();
+		 
+		 while(itr.hasNext()){
+			 
+			 System.out.println("index: " + itr.nextIndex());
+			 itr.next();
+		 }
 	}
 
 }

@@ -8,5 +8,7 @@ public interface ElementInterface {
 	  public void getElementAttributes(String elementName);
 	  public void getChildElements(String parentElement);
 	  public void getParentElement(String childElementName);
+	  public void getElementTextContent(String ElementName);
+	  public void getChildElementByName(String parentElement, String childElement);
 		  
 }

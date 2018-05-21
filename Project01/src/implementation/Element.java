@@ -1,6 +1,6 @@
 package implementation;
 import java.util.*;
-
+import java.util.regex.*;
 
 public class Element implements ElementInterface{
 
@@ -31,7 +31,9 @@ public class Element implements ElementInterface{
 			  }
 		  }
 	  }
-	  public void getElementByName(String elementName){
+	  
+	  
+	  /*public void getElementByName(String elementName){
 		 
 		  String element;
 		 
@@ -56,7 +58,11 @@ public class Element implements ElementInterface{
 			  }
 		  }
 	  }
-	  public void getElementAttributes(String elementName){
+	  */
+	  
+	  
+	  
+	 /* public void getElementAttributes(String elementName){
 		  
 		  String element="<"+elementName;
 		  
@@ -64,7 +70,12 @@ public class Element implements ElementInterface{
 		  
 		  while(iterator.hasNext()){
 			  
-			  if(iterator.next().startsWith(element)){
+			   if(iterator.next().contains(" ")==false){
+				   
+				   System.out.println("No Attributes Available for the Element");
+			   }
+			 
+			    if(iterator.next().startsWith(element)){
 				  
 				  String value=iterator.next();
 				  
@@ -82,19 +93,124 @@ public class Element implements ElementInterface{
 				  }
 				  break;
 				  
-				  /*int firstSpace=value.indexOf(" ");
+				  int firstSpace=value.indexOf(" ");
 				  int closeTagIndex=value.indexOf(">");
 				  
 				  int newStartIndex=firstSpace + 1;
 				  int newEndIndex=closeTagIndex - 1;
 				  
 				  String attributes=value.substring(newStartIndex,newEndIndex);
-				  System.out.println(attributes);*/
+				  System.out.println(attributes);
 				  
 				    
+			  }  
+			    
+			 }
+	  } */
+	  
+	  public void getElementByName(String elementName){
+		  
+		  //RETRIEVE ALL MATCHING ELEMENTS
+		  
+		  String element="<"+elementName;
+		  List<String> matchList=new ArrayList<String>();
+		  
+		  for(int x=0; x<list.size(); x++){
+			  
+			  if(list.get(x).startsWith(element) && list.get(x).contains(" ")==true){
+				  String [] splitter=list.get(x).split(" ");
+					
+				 if(splitter[0].equals(element)){
+					 //System.out.println(list.get(x));
+					 matchList.add(list.get(x));
+					 
+				 }
+				
+			  }
+		      
+			  else if(list.get(x).startsWith(element)){
+				  
+				  //System.out.println(list.get(x));
+				  matchList.add(list.get(x));
 			  }
 		  }
-	  } 
+	      
+		  if(matchList.size()>0) {
+			  
+			  Iterator<String> itr=matchList.iterator();
+			  
+			  while(itr.hasNext()){
+				  
+				  System.out.println(itr.next());
+			  }
+			  
+		  }
+		  
+		  else{
+			  
+			  System.out.println("Element Not Found in the File !");
+		  }
+		  
+	  }
+	  
+      public void getElementByName(String elementName, int index){
+		  
+		  //RETRIEVE ALL MATCHING ELEMENTS
+		  
+		  String element="<"+elementName;
+		  List<String> matchList=new ArrayList<String>();
+		  
+		  for(int x=0; x<list.size(); x++){
+			  
+			  if(list.get(x).startsWith(element) && list.get(x).contains(" ")==true){
+				  String [] splitter=list.get(x).split(" ");
+					
+				 if(splitter[0].equals(element)){
+					 //System.out.println(list.get(x));
+					 matchList.add(list.get(x));
+					 
+				 }
+				
+			  }
+		      
+			  else if(list.get(x).startsWith(element)){
+				  
+				  //System.out.println(list.get(x));
+				  matchList.add(list.get(x));
+			  }
+			  
+		  }
+              if(matchList.size()>0) {
+			  
+			    for(int x=0; x<matchList.size(); x++){
+			    	
+			    	if(index < 0 || index > matchList.size()) {
+			    		
+			    		System.out.println("Invalid Index!");
+			    		break;
+			    	}
+			    	
+			    	else{
+			    		
+			    		if(x==index){			 
+			    			System.out.println(matchList.get(x));
+			    		}
+			    	}
+			    }
+			    
+		      }
+		  
+		     else {
+			      System.out.println("Element Not Found in the File !");
+		     }
+		  
+	  }
+	  
+	  
+	  public void getElementAttributes(String elementName){
+		  
+		  
+	  }
 	  
         public void getChildElements(String parentElement){
 		  
@@ -106,7 +222,6 @@ public class Element implements ElementInterface{
 		  for(int x=0; x<list.size(); x++){
 			  
 			  if(list.get(x).contains(" ")==true){
-				  
 				  String [] splitElement=list.get(x).split(" ");
 				  
 				  if(splitElement[0]==element){
@@ -117,12 +232,10 @@ public class Element implements ElementInterface{
 			  }
 			  
 			  if(list.get(x).startsWith(element)){
-				  
 				  startIndex=x+1;
 			  }
 			  
 			  if(list.get(x).equals(endElement)){
-				  
 				  endIndex=x;
 			  }
 			 
@@ -144,14 +257,29 @@ public class Element implements ElementInterface{
 		  
 	  }
 	  
+	  public void getElementTextContent(String ElementName){
+		  
+		  Pattern pattern = Pattern.compile("<tag>(.+?)</tag>");
+		  Matcher matcher = pattern.matcher("<tag>String I want to extract</tag>");
+		  while(matcher.find()){
+			  
+			  System.out.println(matcher.group(1)); 
+		  }
+	  }
+	  
+	  public void getChildElementByName(String parentElement, String childElement){
+		   
+	  }
+	  
 	  public static void main(String [] args){
 		
 		  Element a=new Element();
 		  a.retrieveFile();
 		  
-		  //a.getElementByID(5);
-		  //a.getElementByName("firstname");
-		  //a.getElementAttributes("student");
-		  a.getChildElements("firstname");
+		  //a.getElementByID(2);
+		  //a.getChildElements("firstname");
+		  //a.getElementAttributes("students");
+		  
+		  a.getElementByName("lastname",5);
 	  }
 }
