@@ -3,7 +3,7 @@
    <student ID="1001" K="">
       <firstname>
         <nickname type="normalnick">Dash</nickname>
-        <realname>Dhanusha</realname>
+        <realname hi="this is real name 01">Dhanusha</realname>
       </firstname>
       <lastname>Siriwardane</lastname>
    </student>
@@ -11,7 +11,7 @@
    <student ID="1002" K="">
       <firstname>
           <nickname type="goodnick">Ganga</nickname>
-          <realname>Gagana</realname>
+          <realname hi="this is real name 02">Gagana</realname>
       </firstname>
       <lastname>Perera</lastname>
    </student>
@@ -19,7 +19,7 @@
    <student ID="1003" K="">
       <firstname>
          <nickname type="badnick">Sach</nickname>
-         <realname>Sachin</realname>
+         <realname hi="this is real name 03">Sachin</realname>
       </firstname>
       <lastname>Dhanushka</lastname>
    </student>
@@ -27,7 +27,7 @@
    <student ID="1004" K="">
        <firstname>
        <nickname type="excellentnick">Hash</nickname>
-       <realname>Hasitha</realname>
+       <realname hi="this is real name 04">Hasitha</realname>
        </firstname>
       <lastname>Silva</lastname>
    </student>

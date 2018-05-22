@@ -195,42 +195,152 @@ public class Element implements ElementInterface{
 		     }
 		  
 	  }
-	  
-	  
-	  public void getElementAttributes(String elementName){
-		  
-		  String element="<"+elementName;
-		  
-		  Iterator<String> iterator=list.iterator();
-		  
-		  while(iterator.hasNext()){			  
-			  
-			  if(iterator.next().contains(" ") && iterator.next().startsWith(element)){
+      
+      public void getElementAllAttributes(String elementName){
+    	  
+    	  //GET ALL ELEMENT ATTRIBUTES BY ELEMENT NAME
+    	  
+    	  String element="<"+elementName;
+    	  Iterator<String> iterator=list.iterator();
+    	  String [] splitter;
+    	  
+    	  while(iterator.hasNext()){
+    		  
+    		  if(iterator.next().contains(" ") && iterator.next().startsWith(element)){
+    			  
+    			  splitter=iterator.next().split(" ");	
+    			  
+    			  for(int x=0; x<splitter.length; x++){
+    				  
+    				  splitter[x]=splitter[x]+",";
+    			  }
+				  String[] newSplitterArr = Arrays.copyOfRange(splitter, 1, splitter.length);				  
+				  String s="";
 				  
-				  String [] splitter=iterator.next().split(" ");
-				  List<String> arrSplit=new ArrayList<String>(Arrays.asList(splitter));
-				  
-				  arrSplit.remove(0);
-
-				  //NEED TO STATT FROM HERE *******
-				  for(int x=0; x<arrSplit.size(); x++) {
+				  for(int x=0; x<newSplitterArr.length; x++){
 					  
-	                  arrSplit.get(x).replace(">","");
-					  
-				  }
-				 
-				  for(int x=0; x<arrSplit.size(); x++){
-					  
-					  System.out.println(arrSplit.get(x));
-				  }
-			  }
-			  
-			  else {
+					  s+=newSplitterArr[x];
+				  }				  
+				  //s=s.replaceAll("\\s","");
+				  s=s.replaceAll(">","");
 				  
+				  //String [] newSplitterArrTwo=s.split(",");
+				  String [] newSplitterArrTwo=s.split("(,)|(=)");
 				  
-			  }
-		  }
-	  }
+				  ArrayList<String> KeyPair=new ArrayList<String>();
+				  ArrayList<String> ValuePair=new ArrayList<String>();
+				  
+                  for(int x=0; x<newSplitterArrTwo.length; x++){
+                	  
+                	  if(newSplitterArrTwo[x].startsWith("\"")){
+                		  
+                		  ValuePair.add(newSplitterArrTwo[x]);
+                	  }
+                	  
+                	  else {
+                		  KeyPair.add(newSplitterArrTwo[x]);
+                	  }
+                  }
+				  
+                  Iterator<String> keyIterator=KeyPair.iterator();
+                  Iterator<String> valueIterator=ValuePair.iterator();
+                  
+                  HashMap<String,String> hMap=new HashMap<String,String>();
+                  
+                  while(keyIterator.hasNext() && valueIterator.hasNext()){
+                	  
+                	  hMap.put(keyIterator.next(), valueIterator.next());
+                  }
+                  
+                  for (Map.Entry<String, String> entry : hMap.entrySet()) {
+          		       System.out.println(entry.getKey() + ": " + entry.getValue());
+          		      }
+                  
+				  break;
+    		  }
+    		  
+    		  else if(iterator.next().startsWith(element)){
+    			  System.out.println("No Attributes Available for Given Element"+iterator.next());
+    			  break;
+    		  }
+    	  }
+      }
+      
+      //OVERLOADING getElementAllAttributes
+      
+    public void getElementAllAttributes(String elementName, String attributeName){
+    	  
+    	 String element="<"+elementName;
+    	 String [] splitter;
+    	 
+    	 for(int z=0; z<list.size(); z++){
+    		 
+    		 if(list.get(z).contains(" ")==true && list.get(z).startsWith(element)){
+    			 
+    			 splitter=list.get(z).split(" ");	
+   			  
+   			  for(int x=0; x<splitter.length; x++){
+   				  
+   				  splitter[x]=splitter[x]+",";
+   			  }
+   			  
+				  String[] newSplitterArr = Arrays.copyOfRange(splitter, 1, splitter.length);				  
+				  String s="";
+				  
+				  for(int x=0; x<newSplitterArr.length; x++){
+					  
+					  s+=newSplitterArr[x];
+				  }				  
+				  //s=s.replaceAll("\\s","");
+				  s=s.replaceAll(">","");
+				  
+				  //String [] newSplitterArrTwo=s.split(",");
+				  String [] newSplitterArrTwo=s.split("(,)|(=)");
+				  
+				  ArrayList<String> KeyPair=new ArrayList<String>();
+				  ArrayList<String> ValuePair=new ArrayList<String>();
+				  
+                 for(int x=0; x<newSplitterArrTwo.length; x++){
+               	  
+               	  if(newSplitterArrTwo[x].startsWith("\"")){
+               		  
+               		  ValuePair.add(newSplitterArrTwo[x]);
+               	  }
+               	  
+               	  else {
+               		  KeyPair.add(newSplitterArrTwo[x]);
+               	  }
+                 }
+                 
+                 Iterator<String> keyIterator=KeyPair.iterator();
+                 Iterator<String> valueIterator=ValuePair.iterator();
+                 
+                 HashMap<String,String> hMap=new HashMap<String,String>();
+                 
+                 while(keyIterator.hasNext() && valueIterator.hasNext()){
+               	  
+               	     hMap.put(keyIterator.next(), valueIterator.next());
+                 }
+                 
+                 Iterator it = hMap.entrySet().iterator();
+                 while (it.hasNext()) {
+                     Map.Entry pair = (Map.Entry)it.next();
+                     System.out.println(pair.getKey() + " : " + pair.getValue());
+                    
+                 }
+                 
+                 
+    		 }
+    		 
+    		 else {
+    			 
+    			System.out.println("No Attributes Available");
+    			break;
+    		 }
+    	 }
+    	
+      }
+     
 	  
         public void getChildElements(String parentElement){
 		  
@@ -266,8 +376,7 @@ public class Element implements ElementInterface{
 		  List<String> childList=list.subList(startIndex, endIndex);		  
 		  Iterator<String> childIterator=childList.iterator();
 		  
-		  while(childIterator.hasNext()){
-			  
+		  while(childIterator.hasNext()){			  
 			  System.out.println(childIterator.next());
 		  }
 	  }
@@ -301,6 +410,7 @@ public class Element implements ElementInterface{
 		  //a.getElementAttributes("students");
 		  
 		  //a.getElementByName("lastname",5);
-		  a.getElementAttributes("student");
+		  //a.getElementAllAttributes("nickname");
+		  a.getElementAllAttributes("nickname", "ss");
 	  }
 }
