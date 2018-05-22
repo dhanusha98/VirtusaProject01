@@ -32,81 +32,112 @@ public class Element implements ElementInterface{
 		  }
 	  }
 	  
+        public void getElementTextContent(String ElementName){
+		  
+		  Pattern pattern = Pattern.compile("<tag>(.+?)</tag>");
+		  Matcher matcher = pattern.matcher("<tag>String I want to extract</tag>");
+		  while(matcher.find()){			  
+			      System.out.println(matcher.group(1)); 
+		  }
+	    }
 	  
-	  /*public void getElementByName(String elementName){
-		 
-		  String element;
-		 
+      public void getParentElement(String childElementName){
+  		  
+    	  int startIndex=0;
+		  int endIndex=0;
+		  String childElement="<"+childElementName;
+		  
+		  List<String> subList=new ArrayList<String>();
+		  
+		  for(int x=0; x<subList.size(); x++){
+			  
+			  System.out.println(subList.get(x));
+		  }
+  	  }  	  
+  	  
+  	  public void getChildElementByName(String parentElement, String childElement){
+  		   
+  		  String element="<"+parentElement;
+		  String endElement="</"+parentElement+">";
+		  int startIndex=0;
+		  int endIndex=0;
+		  
 		  for(int x=0; x<list.size(); x++){
+			  
+			  if(list.get(x).contains(" ")==true){
+				  String [] splitElement=list.get(x).split(" ");
 				  
-			 if(list.get(x).contains(" ")){
-				 
-				  element="<"+elementName;
-				  if(list.get(x).startsWith(element)){
+				  if(splitElement[0]==element){
 					  
-					  System.out.println(list.get(x));
-					  break;
+					  startIndex=x+1;
 				  }
-			 }
-			 
-			 element="<"+elementName+" ";
-			 
-			 if(list.get(x).startsWith(element)){
-				  
-				  System.out.println(list.get(x));
 				  
 			  }
+			  
+			  if(list.get(x).startsWith(element)){
+				  startIndex=x+1;
+			  }
+			  
+			  if(list.get(x).equals(endElement)){
+				  endIndex=x;
+			  }
+			 
+		  }
+		  
+		  //CREATE CHILD ELEMENT LIST AND DISPLAY 
+		  
+		  List<String> childList=list.subList(startIndex, endIndex);		  
+		  
+		  String childElemenName="<"+childElement;
+		  
+		  for(int x=0; x<childList.size(); x++){
+			  
+			  if(childList.get(x).startsWith(childElemenName)){
+			         
+                     System.out.println(childList.get(x));
+                     break;
+			  }
+		  }
+  	  }
+  	  
+  	   public void getChildElements(String parentElement){
+		  
+		  String element="<"+parentElement;
+		  String endElement="</"+parentElement+">";
+		  int startIndex=0;
+		  int endIndex=0;
+		  
+		  for(int x=0; x<list.size(); x++){
+			  
+			  if(list.get(x).contains(" ")==true){
+				  String [] splitElement=list.get(x).split(" ");
+				  
+				  if(splitElement[0]==element){
+					  
+					  startIndex=x+1;
+				  }
+				  
+			  }
+			  
+			  if(list.get(x).startsWith(element)){
+				  startIndex=x+1;
+			  }
+			  
+			  if(list.get(x).equals(endElement)){
+				  endIndex=x;
+			  }
+			 
+		  }
+		  
+		  //CREATE CHILD ELEMENT LIST AND DISPLAY 
+		  
+		  List<String> childList=list.subList(startIndex, endIndex);		  
+		  Iterator<String> childIterator=childList.iterator();
+		  
+		  while(childIterator.hasNext()){			  
+			  System.out.println(childIterator.next());
 		  }
 	  }
-	  */
-	  
-	  
-	  
-	 /* public void getElementAttributes(String elementName){
-		  
-		  String element="<"+elementName;
-		  
-		  Iterator<String> iterator=list.iterator();
-		  
-		  while(iterator.hasNext()){
-			  
-			   if(iterator.next().contains(" ")==false){
-				   
-				   System.out.println("No Attributes Available for the Element");
-			   }
-			 
-			    if(iterator.next().startsWith(element)){
-				  
-				  String value=iterator.next();
-				  
-				  int firstSpace=value.indexOf(" ");
-				  int closeTagIndex=value.indexOf(">");
-				  
-				  int newStartIndex=firstSpace + 1;
-				  
-				  String attributes=value.substring(newStartIndex,closeTagIndex);
-				  String [] attributeArray=attributes.split(" ");
-				  
-				  for(int x=0; x<attributeArray.length; x++){
-					  
-					  System.out.println("ATTRIBUTE WITH VALUE: "+attributeArray[x]);
-				  }
-				  break;
-				  
-				  int firstSpace=value.indexOf(" ");
-				  int closeTagIndex=value.indexOf(">");
-				  
-				  int newStartIndex=firstSpace + 1;
-				  int newEndIndex=closeTagIndex - 1;
-				  
-				  String attributes=value.substring(newStartIndex,newEndIndex);
-				  System.out.println(attributes);
-				  
-				    
-			  }  
-			    
-			 }
-	  } */
 	  
 	  public void getElementByName(String elementName){
 		  
@@ -193,8 +224,10 @@ public class Element implements ElementInterface{
 		     else {
 			      System.out.println("Element Not Found in the File !");
 		     }
-		  
 	  }
+       
+        
+      
       
       public void getElementAllAttributes(String elementName){
     	  
@@ -268,22 +301,25 @@ public class Element implements ElementInterface{
       
       //OVERLOADING getElementAllAttributes
       
-    public void getElementAllAttributes(String elementName, String attributeName){
+      public void getElementAllAttributes(String elementName, String attributeName){
     	  
-    	 String element="<"+elementName;
-    	 String [] splitter;
-    	 
-    	 for(int z=0; z<list.size(); z++){
-    		 
-    		 if(list.get(z).contains(" ")==true && list.get(z).startsWith(element)){
-    			 
-    			 splitter=list.get(z).split(" ");	
-   			  
-   			  for(int x=0; x<splitter.length; x++){
-   				  
-   				  splitter[x]=splitter[x]+",";
-   			  }
-   			  
+    	  
+    	  //GET ALL ELEMENT ATTRIBUTES BY ELEMENT NAME
+    	  
+    	  String element="<"+elementName;
+    	  Iterator<String> iterator=list.iterator();
+    	  String [] splitter;
+    	  
+    	  while(iterator.hasNext()){
+    		  
+    		  if(iterator.next().contains(" ") && iterator.next().startsWith(element)){
+    			  
+    			  splitter=iterator.next().split(" ");	
+    			  
+    			  for(int x=0; x<splitter.length; x++){
+    				  
+    				  splitter[x]=splitter[x]+",";
+    			  }
 				  String[] newSplitterArr = Arrays.copyOfRange(splitter, 1, splitter.length);				  
 				  String s="";
 				  
@@ -300,106 +336,38 @@ public class Element implements ElementInterface{
 				  ArrayList<String> KeyPair=new ArrayList<String>();
 				  ArrayList<String> ValuePair=new ArrayList<String>();
 				  
-                 for(int x=0; x<newSplitterArrTwo.length; x++){
-               	  
-               	  if(newSplitterArrTwo[x].startsWith("\"")){
-               		  
-               		  ValuePair.add(newSplitterArrTwo[x]);
-               	  }
-               	  
-               	  else {
-               		  KeyPair.add(newSplitterArrTwo[x]);
-               	  }
-                 }
-                 
-                 Iterator<String> keyIterator=KeyPair.iterator();
-                 Iterator<String> valueIterator=ValuePair.iterator();
-                 
-                 HashMap<String,String> hMap=new HashMap<String,String>();
-                 
-                 while(keyIterator.hasNext() && valueIterator.hasNext()){
-               	  
-               	     hMap.put(keyIterator.next(), valueIterator.next());
-                 }
-                 
-                 Iterator it = hMap.entrySet().iterator();
-                 while (it.hasNext()) {
-                     Map.Entry pair = (Map.Entry)it.next();
-                     System.out.println(pair.getKey() + " : " + pair.getValue());
-                    
-                 }
-                 
-                 
-    		 }
-    		 
-    		 else {
-    			 
-    			System.out.println("No Attributes Available");
-    			break;
-    		 }
-    	 }
-    	
+                  for(int x=0; x<newSplitterArrTwo.length; x++){
+                	  
+                	  if(newSplitterArrTwo[x].startsWith("\"")){
+                		  
+                		  ValuePair.add(newSplitterArrTwo[x]);
+                	  }
+                	  
+                	  else {
+                		  KeyPair.add(newSplitterArrTwo[x]);
+                	  }
+                  }
+				  
+                  Iterator<String> keyIterator=KeyPair.iterator();
+                  Iterator<String> valueIterator=ValuePair.iterator();
+                  
+                  HashMap<String,String> hMap=new HashMap<String,String>();
+                  
+                  while(keyIterator.hasNext() && valueIterator.hasNext()){
+                	  
+                	  hMap.put(keyIterator.next(), valueIterator.next());
+                  }
+                  
+                  for (Map.Entry<String, String> entry : hMap.entrySet()) {
+          		       System.out.println(entry.getKey() + ": " + entry.getValue());
+          		      }
+                  
+				  
+    		  }
+    
+    	  }
       }
-     
-	  
-        public void getChildElements(String parentElement){
-		  
-		  String element="<"+parentElement;
-		  String endElement="</"+parentElement+">";
-		  int startIndex=0;
-		  int endIndex=0;
-		  
-		  for(int x=0; x<list.size(); x++){
-			  
-			  if(list.get(x).contains(" ")==true){
-				  String [] splitElement=list.get(x).split(" ");
-				  
-				  if(splitElement[0]==element){
-					  
-					  startIndex=x+1;
-				  }
-				  
-			  }
-			  
-			  if(list.get(x).startsWith(element)){
-				  startIndex=x+1;
-			  }
-			  
-			  if(list.get(x).equals(endElement)){
-				  endIndex=x;
-			  }
-			 
-		  }
-		  
-		  //CREATE CHILD ELEMENT LIST AND DISPLAY 
-		  
-		  List<String> childList=list.subList(startIndex, endIndex);		  
-		  Iterator<String> childIterator=childList.iterator();
-		  
-		  while(childIterator.hasNext()){			  
-			  System.out.println(childIterator.next());
-		  }
-	  }
 	  	  
-	  public void getParentElement(String childElementName){
-		  
-		  
-	  }
-	  
-	  public void getElementTextContent(String ElementName){
-		  
-		  Pattern pattern = Pattern.compile("<tag>(.+?)</tag>");
-		  Matcher matcher = pattern.matcher("<tag>String I want to extract</tag>");
-		  while(matcher.find()){
-			  
-			  System.out.println(matcher.group(1)); 
-		  }
-	  }
-	  
-	  public void getChildElementByName(String parentElement, String childElement){
-		   
-	  }
-	  
 	  public static void main(String [] args){
 		
 		  Element a=new Element();
@@ -411,6 +379,10 @@ public class Element implements ElementInterface{
 		  
 		  //a.getElementByName("lastname",5);
 		  //a.getElementAllAttributes("nickname");
-		  a.getElementAllAttributes("nickname", "ss");
+		  //a.getElementAllAttributes("nickname", "ssssss");
+		  
+		  //a.getChildElementByName("students", "student");
+		  
+		  a.getParentElement("student");
 	  }
 }
