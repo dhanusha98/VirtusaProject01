@@ -32,14 +32,35 @@ public class Element implements ElementInterface{
 		  }
 	  }
 	  
-        public void getElementTextContent(String ElementName){
+        /*public void getElementTextContent(String ElementName){
 		  
 		  Pattern pattern = Pattern.compile("<tag>(.+?)</tag>");
 		  Matcher matcher = pattern.matcher("<tag>String I want to extract</tag>");
 		  while(matcher.find()){			  
 			      System.out.println(matcher.group(1)); 
 		  }
-	    }
+	    }*/
+        
+        
+        public void getElementTextContent(String ElementName){
+        	
+         String startElement="<"+ElementName;
+         String endElement="</"+ElementName+">";
+
+         Pattern pattern = Pattern.compile(startElement+"(.+?)"+">"+"(.+?)"+endElement);
+         String s="";
+         for(int x=0; x<list.size(); x++){   	 
+        	 s+=list.get(x);
+         }
+         
+         Matcher matcher = pattern.matcher(s);
+         
+         while(matcher.find()){
+        	 
+        	 System.out.println(matcher.group(2));
+         }
+         
+  	    }
 	  
       public void getParentElement(String childElementName){
   		  
@@ -191,181 +212,183 @@ public class Element implements ElementInterface{
 				 if(splitter[0].equals(element)){
 					 //System.out.println(list.get(x));
 					 matchList.add(list.get(x));
-					 
 				 }
-				
 			  }
 		      
-			  else if(list.get(x).startsWith(element)){
-				  
+			  else if(list.get(x).startsWith(element)){  
 				  //System.out.println(list.get(x));
 				  matchList.add(list.get(x));
 			  }
-			  
 		  }
               if(matchList.size()>0) {
-			  
 			    for(int x=0; x<matchList.size(); x++){
-			    	
 			    	if(index < 0 || index > matchList.size()) {
 			    		System.out.println("Invalid Index!");
 			    		break;
 			    	}
-			    	
 			    	else{
 			    		if(x==index){			 
 			    			System.out.println(matchList.get(x));
 			    		}
 			    	}
 			    }
-			    
 		      }
 		  
 		     else {
 			      System.out.println("Element Not Found in the File !");
 		     }
 	  }
-       
-        
-      
       
       public void getElementAllAttributes(String elementName){
     	  
     	  //GET ALL ELEMENT ATTRIBUTES BY ELEMENT NAME
-    	  
+
     	  String element="<"+elementName;
-    	  Iterator<String> iterator=list.iterator();
-    	  String [] splitter;
+		  int startIndex=0;
+		  int endIndex=0;
+		  
+		  String actualElement="";
+		  
+		  for(int x=0; x<list.size(); x++){
+			  
+			  if(list.get(x).contains(" ")==true){
+				  String [] splitElement=list.get(x).split(" ");
+				  
+				  if(splitElement[0]==element){
+					  actualElement=list.get(x);
+				  }
+				  
+			  }
+			  
+			  if(list.get(x).startsWith(element)){
+				  actualElement=list.get(x);
+			  }
+			 
+		  }
+		  actualElement=actualElement.replace(">","");
+		  
+		  Pattern pattern = Pattern.compile("\\s(.*)");
+		  Matcher matcher = pattern.matcher(actualElement);
+		  String r="";
+		  if(matcher.find()){			  
+			     
+                //System.out.println(matcher.group(0));	
+                r=matcher.group().trim();
+                r=r.replace(" ", "=");
+                
+                String [] split=r.split("=");
+                List<String> keyPair=new ArrayList<String>();
+                List<String> valuePair=new ArrayList<String>();
+                
+                for(int x=0; x<split.length; x++){
+                	
+                	if(split[x].startsWith("\"")){
+                		
+                		valuePair.add(split[x]);
+                	}
+                	
+                	else {
+                		keyPair.add(split[x]);
+                	}
+                }
+                Iterator<String> keyIterator=keyPair.iterator();
+                Iterator<String> valueIterator=valuePair.iterator();
+                
+                HashMap<String,String> hMap=new HashMap<String,String>();
+                
+                while(keyIterator.hasNext() && valueIterator.hasNext()){
+              	  
+              	  hMap.put(keyIterator.next(), valueIterator.next());
+                }
+                
+                for (Map.Entry<String, String> entry : hMap.entrySet()) {
+       		       System.out.println(entry.getKey() + ": " + entry.getValue());
+       		      }
+		  }
     	  
-    	  while(iterator.hasNext()){
-    		  
-    		  if(iterator.next().contains(" ") && iterator.next().startsWith(element)){
-    			  
-    			  splitter=iterator.next().split(" ");	
-    			  
-    			  for(int x=0; x<splitter.length; x++){
-    				  
-    				  splitter[x]=splitter[x]+",";
-    			  }
-				  String[] newSplitterArr = Arrays.copyOfRange(splitter, 1, splitter.length);				  
-				  String s="";
-				  
-				  for(int x=0; x<newSplitterArr.length; x++){
-					  
-					  s+=newSplitterArr[x];
-				  }				  
-				  //s=s.replaceAll("\\s","");
-				  s=s.replaceAll(">","");
-				  
-				  //String [] newSplitterArrTwo=s.split(",");
-				  String [] newSplitterArrTwo=s.split("(,)|(=)");
-				  
-				  ArrayList<String> KeyPair=new ArrayList<String>();
-				  ArrayList<String> ValuePair=new ArrayList<String>();
-				  
-                  for(int x=0; x<newSplitterArrTwo.length; x++){
-                	  
-                	  if(newSplitterArrTwo[x].startsWith("\"")){
-                		  
-                		  ValuePair.add(newSplitterArrTwo[x]);
-                	  }
-                	  
-                	  else {
-                		  KeyPair.add(newSplitterArrTwo[x]);
-                	  }
-                  }
-				  
-                  Iterator<String> keyIterator=KeyPair.iterator();
-                  Iterator<String> valueIterator=ValuePair.iterator();
-                  
-                  HashMap<String,String> hMap=new HashMap<String,String>();
-                  
-                  while(keyIterator.hasNext() && valueIterator.hasNext()){
-                	  
-                	  hMap.put(keyIterator.next(), valueIterator.next());
-                  }
-                  
-                  for (Map.Entry<String, String> entry : hMap.entrySet()) {
-          		       System.out.println(entry.getKey() + ": " + entry.getValue());
-          		      }
-                  
-				  break;
-    		  }
-    		  
-    		  else if(iterator.next().startsWith(element)){
-    			  System.out.println("No Attributes Available for Given Element"+iterator.next());
-    			  break;
-    		  }
-    	  }
+		  else {
+			  
+			  System.out.println("NO ATTRIBUTES FOUND!");
+		  }
       }
       
       //OVERLOADING getElementAllAttributes
       
       public void getElementAllAttributes(String elementName, String attributeName){
     	  
-    	  
-    	  //GET ALL ELEMENT ATTRIBUTES BY ELEMENT NAME
-    	  
+    	//GET ALL ELEMENT ATTRIBUTES BY ELEMENT NAME
+
     	  String element="<"+elementName;
-    	  Iterator<String> iterator=list.iterator();
-    	  String [] splitter;
+		  int startIndex=0;
+		  int endIndex=0;
+		  
+		  String actualElement="";
+		  
+		  for(int x=0; x<list.size(); x++){
+			  
+			  if(list.get(x).contains(" ")==true){
+				  String [] splitElement=list.get(x).split(" ");
+				  
+				  if(splitElement[0]==element){
+					  actualElement=list.get(x);
+				  }
+				  
+			  }
+			  
+			  if(list.get(x).startsWith(element)){
+				  actualElement=list.get(x);
+			  }
+			 
+		  }
+		  actualElement=actualElement.replace(">","");
+		  
+		  Pattern pattern = Pattern.compile("\\s(.*)");
+		  Matcher matcher = pattern.matcher(actualElement);
+		  String r="";
+		  if(matcher.find()){			  
+			     
+                //System.out.println(matcher.group(0));	
+                r=matcher.group().trim();
+                r=r.replace(" ", "=");
+                
+                String [] split=r.split("=");
+                List<String> keyPair=new ArrayList<String>();
+                List<String> valuePair=new ArrayList<String>();
+                
+                for(int x=0; x<split.length; x++){
+                	
+                	if(split[x].startsWith("\"")){
+                		
+                		valuePair.add(split[x]);
+                	}
+                	
+                	else {
+                		keyPair.add(split[x]);
+                	}
+                }
+
+                Iterator<String> keyIterator=keyPair.iterator();
+                Iterator<String> valueIterator=valuePair.iterator();
+                
+                HashMap<String,String> hMap=new HashMap<String,String>();
+                
+                while(keyIterator.hasNext() && valueIterator.hasNext()){
+              	  
+              	  hMap.put(keyIterator.next(), valueIterator.next());
+                }
+                String bind="";
+                for (Map.Entry<String, String> entry : hMap.entrySet()) {       		       
+       		       if(entry.getKey().equals(attributeName)){
+       		    	   System.out.println(entry.getKey() + ": " + entry.getValue());
+       		    	   break;
+       		       }
+       		      
+       		      }
+		  }
     	  
-    	  while(iterator.hasNext()){
-    		  
-    		  if(iterator.next().contains(" ") && iterator.next().startsWith(element)){
-    			  
-    			  splitter=iterator.next().split(" ");	
-    			  
-    			  for(int x=0; x<splitter.length; x++){
-    				  
-    				  splitter[x]=splitter[x]+",";
-    			  }
-				  String[] newSplitterArr = Arrays.copyOfRange(splitter, 1, splitter.length);				  
-				  String s="";
-				  
-				  for(int x=0; x<newSplitterArr.length; x++){
-					  
-					  s+=newSplitterArr[x];
-				  }				  
-				  //s=s.replaceAll("\\s","");
-				  s=s.replaceAll(">","");
-				  
-				  //String [] newSplitterArrTwo=s.split(",");
-				  String [] newSplitterArrTwo=s.split("(,)|(=)");
-				  
-				  ArrayList<String> KeyPair=new ArrayList<String>();
-				  ArrayList<String> ValuePair=new ArrayList<String>();
-				  
-                  for(int x=0; x<newSplitterArrTwo.length; x++){
-                	  
-                	  if(newSplitterArrTwo[x].startsWith("\"")){
-                		  
-                		  ValuePair.add(newSplitterArrTwo[x]);
-                	  }
-                	  
-                	  else {
-                		  KeyPair.add(newSplitterArrTwo[x]);
-                	  }
-                  }
-				  
-                  Iterator<String> keyIterator=KeyPair.iterator();
-                  Iterator<String> valueIterator=ValuePair.iterator();
-                  
-                  HashMap<String,String> hMap=new HashMap<String,String>();
-                  
-                  while(keyIterator.hasNext() && valueIterator.hasNext()){
-                	  
-                	  hMap.put(keyIterator.next(), valueIterator.next());
-                  }
-                  
-                  for (Map.Entry<String, String> entry : hMap.entrySet()) {
-          		       System.out.println(entry.getKey() + ": " + entry.getValue());
-          		      }
-                  
-				  
-    		  }
-    
-    	  }
+		  else {
+			  System.out.println("NO ATTRIBUTES FOUND!");
+		  }
       }
 	  	  
 	  public static void main(String [] args){
@@ -383,6 +406,9 @@ public class Element implements ElementInterface{
 		  
 		  //a.getChildElementByName("students", "student");
 		  
-		  a.getParentElement("student");
+		  //a.getParentElement("student");
+		  //a.getElementTextContent("lastname");
+		  
+		  a.getElementAllAttributes("student","ID");
 	  }
 }
