@@ -5,11 +5,11 @@ public class FileClass {
 
 	private List<String> arr; //ArrayList to Hold File Contents
 	
-	public void readFile(){
+	public void readFile(String inputfile){
 		
            try {
 			 
-			 String filename="Student.xml";
+			 String filename=inputfile;
 			 File a=new File(filename);
 
 			if(!filename.endsWith("xml")){
@@ -72,7 +72,7 @@ public class FileClass {
 		
 		FileClass f=new FileClass();
 		
-		f.readFile();
+		f.readFile("Student.xml");
 		
 		f.getFileContents();
 	}

@@ -8,10 +8,10 @@ public class Element implements ElementInterface{
 	  public void retrieveFile(){
 		  
 		  FileClass o=new FileClass();
-		  o.readFile();
+		  o.readFile("Student.xml");
 		  list=o.getFileContents();
 		  
-		/* for(int x=0; x<list.size(); x++){
+		 /*for(int x=0; x<list.size(); x++){
 			  
 			  System.out.println(list.get(x));
 		  }*/
@@ -31,51 +31,99 @@ public class Element implements ElementInterface{
 			  }
 		  }
 	  }
-	  
-        /*public void getElementTextContent(String ElementName){
+	
+	  public void getElementTextContent(String ElementName){
 		  
-		  Pattern pattern = Pattern.compile("<tag>(.+?)</tag>");
-		  Matcher matcher = pattern.matcher("<tag>String I want to extract</tag>");
-		  while(matcher.find()){			  
-			      System.out.println(matcher.group(1)); 
-		  }
-	    }*/
-        
-        
-        public void getElementTextContent(String ElementName){
-        	
-         String startElement="<"+ElementName;
-         String endElement="</"+ElementName+">";
-
-         Pattern pattern = Pattern.compile(startElement+"(.+?)"+">"+"(.+?)"+endElement);
-         String s="";
-         for(int x=0; x<list.size(); x++){   	 
-        	 s+=list.get(x);
-         }
-         
-         Matcher matcher = pattern.matcher(s);
-         
-         while(matcher.find()){
-        	 
-        	 System.out.println(matcher.group(2));
-         }
-         
-  	    }
-	  
-      public void getParentElement(String childElementName){
-  		  
-    	  int startIndex=0;
+		  String element="<"+ElementName;
+		  String endElement="</"+ElementName+">";
+		  int startIndex=0;
 		  int endIndex=0;
-		  String childElement="<"+childElementName;
-		  
-		  List<String> subList=new ArrayList<String>();
-		  
-		  for(int x=0; x<subList.size(); x++){
-			  
-			  System.out.println(subList.get(x));
+		  String value="";
+		  for(int x=0; x<list.size(); x++){			  
+			  if(list.get(x).startsWith(element)){
+				  value=list.get(x);
+				  
+				  String [] splitter=value.split("[><]");
+				  
+				  System.out.println("TEXT CONTENT: "+splitter[2]);
+			  }
 		  }
-  	  }  	  
-  	  
+	  }
+	  
+      /*public void getParentElement(String childElementName){
+  		  
+    	  String value="";
+    	  String startTag="";
+    	  String endTag="";
+    	  
+    	  int startIndex=0;
+    	  int endIndex=0;
+    	  
+    	  for(int x=0; x<list.size(); x++){
+    		  
+    		  value=list.get(x);
+    		  value=value.replace("<", "").replace("/", "").replace(">", "");
+    		  
+    		  startTag="<"+value;
+    		  endTag="</"+value;    		  
+    		  
+    		  if(list.get(x).contains(" ")==true){
+				  String [] splitElement=list.get(x).split(" ");
+				  
+				  if(splitElement[0].equals(startTag)){ 
+					  startIndex=x;
+				  }
+			  }
+			  
+			  if(list.get(x).startsWith(startTag)){
+				  startIndex=x;
+			  }
+			  
+			  if(list.get(x).startsWith(endTag)){
+				  endIndex=x;
+			  }			 			
+	    	 
+			  List<String> childList=list.subList(startIndex, endIndex);
+			  String childElement="<"+childElementName;
+			  
+			  for(int y=0; y<childList.size(); y++){
+			      if(childList.get(y).startsWith(childElement)){ 
+			    	  System.out.println(childList.get(0));
+			      }
+			  }
+			  
+			  childList.clear();  			  
+    	  }
+     
+  	  }  	  */
+        
+      public void getParentElement(String childElementName) {
+        	
+    	  ListIterator<String> iterator=list.listIterator();
+    	  String element="<"+childElementName;
+    	  
+          while(iterator.hasNext()){
+    		  
+    		  if(iterator.next().startsWith(element)){
+    			  while(iterator.hasPrevious()){
+    				  if(iterator.previous().contains("</")==false){
+    					  String value=iterator.previous();
+    					  System.out.println("PARENT ELEMENT: "+value);
+    					  break;
+    				  }
+    			  }
+    			 
+    			 
+    		  /*else {
+    			  System.out.println("Invalid Element");
+    		  }*/
+    		  
+    		  
+    		  }
+              
+    	  }
+      }
+        
   	  public void getChildElementByName(String parentElement, String childElement){
   		   
   		  String element="<"+parentElement;
@@ -88,11 +136,9 @@ public class Element implements ElementInterface{
 			  if(list.get(x).contains(" ")==true){
 				  String [] splitElement=list.get(x).split(" ");
 				  
-				  if(splitElement[0]==element){
-					  
+				  if(splitElement[0]==element){ 
 					  startIndex=x+1;
 				  }
-				  
 			  }
 			  
 			  if(list.get(x).startsWith(element)){
@@ -104,17 +150,13 @@ public class Element implements ElementInterface{
 			  }
 			 
 		  }
-		  
 		  //CREATE CHILD ELEMENT LIST AND DISPLAY 
 		  
-		  List<String> childList=list.subList(startIndex, endIndex);		  
-		  
+		  List<String> childList=list.subList(startIndex, endIndex);		  		  
 		  String childElemenName="<"+childElement;
 		  
 		  for(int x=0; x<childList.size(); x++){
-			  
 			  if(childList.get(x).startsWith(childElemenName)){
-			         
                      System.out.println(childList.get(x));
                      break;
 			  }
@@ -134,10 +176,8 @@ public class Element implements ElementInterface{
 				  String [] splitElement=list.get(x).split(" ");
 				  
 				  if(splitElement[0]==element){
-					  
 					  startIndex=x+1;
 				  }
-				  
 			  }
 			  
 			  if(list.get(x).startsWith(element)){
@@ -394,21 +434,16 @@ public class Element implements ElementInterface{
 	  public static void main(String [] args){
 		
 		  Element a=new Element();
-		  a.retrieveFile();
+		  a.retrieveFile(); //FILE RETRIEVAL
 		  
-		  //a.getElementByID(2);
-		  //a.getChildElements("firstname");
-		  //a.getElementAttributes("students");
 		  
-		  //a.getElementByName("lastname",5);
-		  //a.getElementAllAttributes("nickname");
-		  //a.getElementAllAttributes("nickname", "ssssss");
-		  
-		  //a.getChildElementByName("students", "student");
-		  
-		  //a.getParentElement("student");
-		  //a.getElementTextContent("lastname");
-		  
-		  a.getElementAllAttributes("student","ID");
+		  //a.getElementByID(1);          //ACCESS ELEMENT BY ELEMENT ID
+		  //a.getElementByName("student"); //ACCESS ELEMENT BY ELEMENT NAME (ALL ELEMENTS)
+		  //a.getElementByName("student",0); //ACCESS ELEMENT BY ELEMENT NAME (SPECIFC INDEX)
+		  //a.getElementAllAttributes("student"); //ACCESS ALL ELEMENT ATTRIBUTES BY NAME
+		  //a.getParentElement("firstname"); //ACCESS PARENT ELEMENT OF ELEMENT
+		  //a.getChildElements("student");  //ACCESS ALL CHILD ELEMENTS OF ELEMENT
+		  //a.getChildElementByName("student", "firstname"); //ACCESS SPECIFIC CHILD ELEMENT OF ELEMENT
+		  //a.getElementTextContent("lastname"); //ACCESS TEXT CONTENT OF ELEMENT
 	  }
 }
