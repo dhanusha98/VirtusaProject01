@@ -35,9 +35,9 @@ public class Element implements ElementInterface{
 	  public void getElementTextContent(String ElementName){
 		  
 		  String element="<"+ElementName;
-		  String endElement="</"+ElementName+">";
-		  int startIndex=0;
-		  int endIndex=0;
+		  //String endElement="</"+ElementName+">";
+		  //int startIndex=0;
+		  //int endIndex=0;
 		  String value="";
 		  for(int x=0; x<list.size(); x++){			  
 			  if(list.get(x).startsWith(element)){
@@ -49,79 +49,26 @@ public class Element implements ElementInterface{
 			  }
 		  }
 	  }
-	  
-      /*public void getParentElement(String childElementName){
-  		  
-    	  String value="";
-    	  String startTag="";
-    	  String endTag="";
-    	  
-    	  int startIndex=0;
-    	  int endIndex=0;
-    	  
-    	  for(int x=0; x<list.size(); x++){
-    		  
-    		  value=list.get(x);
-    		  value=value.replace("<", "").replace("/", "").replace(">", "");
-    		  
-    		  startTag="<"+value;
-    		  endTag="</"+value;    		  
-    		  
-    		  if(list.get(x).contains(" ")==true){
-				  String [] splitElement=list.get(x).split(" ");
-				  
-				  if(splitElement[0].equals(startTag)){ 
-					  startIndex=x;
-				  }
-			  }
-			  
-			  if(list.get(x).startsWith(startTag)){
-				  startIndex=x;
-			  }
-			  
-			  if(list.get(x).startsWith(endTag)){
-				  endIndex=x;
-			  }			 			
-	    	 
-			  List<String> childList=list.subList(startIndex, endIndex);
-			  String childElement="<"+childElementName;
-			  
-			  for(int y=0; y<childList.size(); y++){
-			      if(childList.get(y).startsWith(childElement)){ 
-			    	  System.out.println(childList.get(0));
-			      }
-			  }
-			  
-			  childList.clear();  			  
-    	  }
-     
-  	  }  	  */
         
       public void getParentElement(String childElementName) {
         	
     	  ListIterator<String> iterator=list.listIterator();
     	  String element="<"+childElementName;
     	  
-          while(iterator.hasNext()){
-    		  
-    		  if(iterator.next().startsWith(element)){
-    			  while(iterator.hasPrevious()){
-    				  if(iterator.previous().contains("</")==false){
-    					  String value=iterator.previous();
-    					  System.out.println("PARENT ELEMENT: "+value);
-    					  break;
-    				  }
-    			  }
-    			 
-    			 
-    		  /*else {
-    			  System.out.println("Invalid Element");
-    		  }*/
-    		  
-    		  
-    		  }
-              
-    	  }
+          for(int x=0; x<list.size(); x++){
+        	  
+        	  if(list.get(x).startsWith(element)){
+        		  
+        		  for(int y=x-1; y>=0; y--){
+        			  
+        			  if(list.get(y).contains("</")==false){
+        				  
+        				  System.out.println("Parent Element: "+list.get(y));
+        				  break;
+        			  }
+        		  }
+        	  }
+          }
       }
         
   	  public void getChildElementByName(String parentElement, String childElement){
@@ -416,7 +363,7 @@ public class Element implements ElementInterface{
               	  
               	  hMap.put(keyIterator.next(), valueIterator.next());
                 }
-                String bind="";
+                
                 for (Map.Entry<String, String> entry : hMap.entrySet()) {       		       
        		       if(entry.getKey().equals(attributeName)){
        		    	   System.out.println(entry.getKey() + ": " + entry.getValue());
@@ -441,7 +388,7 @@ public class Element implements ElementInterface{
 		  //a.getElementByName("student"); //ACCESS ELEMENT BY ELEMENT NAME (ALL ELEMENTS)
 		  //a.getElementByName("student",0); //ACCESS ELEMENT BY ELEMENT NAME (SPECIFC INDEX)
 		  //a.getElementAllAttributes("student"); //ACCESS ALL ELEMENT ATTRIBUTES BY NAME
-		  //a.getParentElement("firstname"); //ACCESS PARENT ELEMENT OF ELEMENT
+		  a.getParentElement("nickname"); //ACCESS PARENT ELEMENT OF ELEMENT
 		  //a.getChildElements("student");  //ACCESS ALL CHILD ELEMENTS OF ELEMENT
 		  //a.getChildElementByName("student", "firstname"); //ACCESS SPECIFIC CHILD ELEMENT OF ELEMENT
 		  //a.getElementTextContent("lastname"); //ACCESS TEXT CONTENT OF ELEMENT
