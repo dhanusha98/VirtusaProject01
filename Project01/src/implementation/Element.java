@@ -228,154 +228,55 @@ public class Element implements ElementInterface{
       
       public void getElementAllAttributes(String elementName){
     	  
-    	  //GET ALL ELEMENT ATTRIBUTES BY ELEMENT NAME
-
     	  String element="<"+elementName;
-		  int startIndex=0;
-		  int endIndex=0;
-		  
-		  String actualElement="";
-		  
-		  for(int x=0; x<list.size(); x++){
-			  
-			  if(list.get(x).contains(" ")==true){
-				  String [] splitElement=list.get(x).split(" ");
-				  
-				  if(splitElement[0]==element){
-					  actualElement=list.get(x);
-				  }
-				  
-			  }
-			  
-			  if(list.get(x).startsWith(element)){
-				  actualElement=list.get(x);
-			  }
-			 
-		  }
-		  actualElement=actualElement.replace(">","");
-		  
-		  Pattern pattern = Pattern.compile("\\s(.*)");
-		  Matcher matcher = pattern.matcher(actualElement);
-		  String r="";
-		  if(matcher.find()){			  
-			     
-                //System.out.println(matcher.group(0));	
-                r=matcher.group().trim();
-                r=r.replace(" ", "=");
-                
-                String [] split=r.split("=");
-                List<String> keyPair=new ArrayList<String>();
-                List<String> valuePair=new ArrayList<String>();
-                
-                for(int x=0; x<split.length; x++){
-                	
-                	if(split[x].startsWith("\"")){
-                		
-                		valuePair.add(split[x]);
-                	}
-                	
-                	else {
-                		keyPair.add(split[x]);
-                	}
-                }
-                Iterator<String> keyIterator=keyPair.iterator();
-                Iterator<String> valueIterator=valuePair.iterator();
-                
-                HashMap<String,String> hMap=new HashMap<String,String>();
-                
-                while(keyIterator.hasNext() && valueIterator.hasNext()){
-              	  
-              	  hMap.put(keyIterator.next(), valueIterator.next());
-                }
-                
-                for (Map.Entry<String, String> entry : hMap.entrySet()) {
-       		       System.out.println(entry.getKey() + ": " + entry.getValue());
-       		      }
-		  }
     	  
-		  else {
-			  
-			  System.out.println("NO ATTRIBUTES FOUND!");
-		  }
+    	  for(int x=0; x<list.size(); x++){
+    		  
+    		  if(list.get(x).startsWith(element) && list.get(x).contains(" ")==true){
+    			  
+    			  String value=list.get(x);
+    			  value=value.replace(">", "");
+    			  
+    			  String [] splitter=value.split(" ");
+    			  
+    			  for(int y=1; y<splitter.length; y++){
+    				  
+    				  System.out.println("Attribute Name with Value (Separeted from \'=\'):  "+splitter[y]);
+    			  }
+    			  
+    		  }
+    		  
+    		 
+    	  }
       }
       
       //OVERLOADING getElementAllAttributes
       
       public void getElementAllAttributes(String elementName, String attributeName){
     	  
-    	//GET ALL ELEMENT ATTRIBUTES BY ELEMENT NAME
-
-    	  String element="<"+elementName;
-		  int startIndex=0;
-		  int endIndex=0;
-		  
-		  String actualElement="";
-		  
-		  for(int x=0; x<list.size(); x++){
-			  
-			  if(list.get(x).contains(" ")==true){
-				  String [] splitElement=list.get(x).split(" ");
-				  
-				  if(splitElement[0]==element){
-					  actualElement=list.get(x);
-				  }
-				  
-			  }
-			  
-			  if(list.get(x).startsWith(element)){
-				  actualElement=list.get(x);
-			  }
-			 
-		  }
-		  actualElement=actualElement.replace(">","");
-		  
-		  Pattern pattern = Pattern.compile("\\s(.*)");
-		  Matcher matcher = pattern.matcher(actualElement);
-		  String r="";
-		  if(matcher.find()){			  
-			     
-                //System.out.println(matcher.group(0));	
-                r=matcher.group().trim();
-                r=r.replace(" ", "=");
-                
-                String [] split=r.split("=");
-                List<String> keyPair=new ArrayList<String>();
-                List<String> valuePair=new ArrayList<String>();
-                
-                for(int x=0; x<split.length; x++){
-                	
-                	if(split[x].startsWith("\"")){
-                		
-                		valuePair.add(split[x]);
-                	}
-                	
-                	else {
-                		keyPair.add(split[x]);
-                	}
-                }
-
-                Iterator<String> keyIterator=keyPair.iterator();
-                Iterator<String> valueIterator=valuePair.iterator();
-                
-                HashMap<String,String> hMap=new HashMap<String,String>();
-                
-                while(keyIterator.hasNext() && valueIterator.hasNext()){
-              	  
-              	  hMap.put(keyIterator.next(), valueIterator.next());
-                }
-                
-                for (Map.Entry<String, String> entry : hMap.entrySet()) {       		       
-       		       if(entry.getKey().equals(attributeName)){
-       		    	   System.out.println(entry.getKey() + ": " + entry.getValue());
-       		    	   break;
-       		       }
-       		      
-       		      }
-		  }
+  String element="<"+elementName;
     	  
-		  else {
-			  System.out.println("NO ATTRIBUTES FOUND!");
-		  }
+    	  for(int x=0; x<list.size(); x++){
+    		  
+    		  if(list.get(x).startsWith(element) && list.get(x).contains(" ")==true){
+    			  
+    			  String value=list.get(x);
+    			  value=value.replace(">", "");
+    			  
+    			  String [] splitter=value.split(" ");
+    			  
+    			  for(int y=1; y<splitter.length; y++){
+    				  
+    				  if(splitter[y].startsWith(attributeName)){
+    					  System.out.println("Attribute Name with Value (Separeted from \'=\'):  "+splitter[y]);
+    				  }
+    				  
+    			  }
+    			  
+    		  }
+    		  
+    		 
+    	  }
       }
 	  	  
 	  public static void main(String [] args){
@@ -388,7 +289,8 @@ public class Element implements ElementInterface{
 		  //a.getElementByName("student"); //ACCESS ELEMENT BY ELEMENT NAME (ALL ELEMENTS)
 		  //a.getElementByName("student",0); //ACCESS ELEMENT BY ELEMENT NAME (SPECIFC INDEX)
 		  //a.getElementAllAttributes("student"); //ACCESS ALL ELEMENT ATTRIBUTES BY NAME
-		  a.getParentElement("nickname"); //ACCESS PARENT ELEMENT OF ELEMENT
+		  //a.getElementAllAttributes("student","ID"); //ACCESS ELEMENT ATTRIBUTES BASED ON ELEMENT ATTRIBUTE NAME
+		  //a.getParentElement("nickname"); //ACCESS PARENT ELEMENT OF ELEMENT
 		  //a.getChildElements("student");  //ACCESS ALL CHILD ELEMENTS OF ELEMENT
 		  //a.getChildElementByName("student", "firstname"); //ACCESS SPECIFIC CHILD ELEMENT OF ELEMENT
 		  //a.getElementTextContent("lastname"); //ACCESS TEXT CONTENT OF ELEMENT
