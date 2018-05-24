@@ -4,12 +4,16 @@ import java.util.regex.*;
 
 public class Element implements ElementInterface{
 
-	private List<String> list;
+	private List<String> list; //LIST TO BE INCLUDED FILE ELEMENTS
 	  public void retrieveFile(){
+		  
+		  //RETRIEVE FILE CONTENTS FROM 'FileClass'
 		  
 		  FileClass o=new FileClass();
 		  o.readFile("Student.xml");
-		  list=o.getFileContents();
+		  list=o.getFileContents(); //ASSIGN FILE ELEMENTS TO DECLARED LIST
+		  
+		  //DISPLAY FILE CONTENTS
 		  
 		 /*for(int x=0; x<list.size(); x++){
 			  
@@ -20,7 +24,9 @@ public class Element implements ElementInterface{
 	  
 	  public void getElementByID(int id){
 		  
-		  Iterator<String> iterator=list.iterator();
+		  //METHOD TO ACCESS FILE ELEMENTS BY ID BASED ON ARRAYLIST INDEX ITS STORED
+		  
+		  Iterator<String> iterator=list.iterator(); //ITERATOR TO TRAVERSE DECLARED LIST
 		  
 		  while(iterator.hasNext()){
 			  
@@ -34,10 +40,15 @@ public class Element implements ElementInterface{
 	
 	  public void getElementTextContent(String ElementName){
 		  
-		  String element="<"+ElementName;
+		  //METHOD TO EXTRACT GIVEN ELEMENT'S TEXT CONTENT
+		  
+		  String element="<"+ElementName; //FORMATION OF ELEMENT NAME FOR COMPARISON AGAINST LIST ELEMENTS
 		  //String endElement="</"+ElementName+">";
 		  //int startIndex=0;
 		  //int endIndex=0;
+		  
+		//TRAVERSING AND LOGIC TO EXTRACT ELEMENT ASSOCIATED TEXT CONTENT
+		  
 		  String value="";
 		  for(int x=0; x<list.size(); x++){			  
 			  if(list.get(x).startsWith(element)){
@@ -51,10 +62,13 @@ public class Element implements ElementInterface{
 	  }
         
       public void getParentElement(String childElementName) {
+    	  
+    	  //METHOD TO ACCESS PARENT ELEMENT OF ELEMENT 
         	
     	  ListIterator<String> iterator=list.listIterator();
-    	  String element="<"+childElementName;
+    	  String element="<"+childElementName;   //FORMATION OF ELEMENT NAME FOR COMPARISON AGAINST LIST ELEMENTS
     	  
+    	  //TRAVERSING AND LOGIC TO EXTRACT PARENT ELEMENT
           for(int x=0; x<list.size(); x++){
         	  
         	  if(list.get(x).startsWith(element)){
@@ -73,11 +87,14 @@ public class Element implements ElementInterface{
         
   	  public void getChildElementByName(String parentElement, String childElement){
   		   
-  		  String element="<"+parentElement;
-		  String endElement="</"+parentElement+">";
-		  int startIndex=0;
-		  int endIndex=0;
+  		  //METHOD TO GET SELECTED ELEMENT OF AN ELEMENT BASED ON PARENT AND CHILD ELEMENT NAMES
+  		  
+  		  String element="<"+parentElement; //FORMATION OF PARENT ELEMENT FOR COMPARISON AGAINST LIST
+		  String endElement="</"+parentElement+">"; //FORMATION OF END PARENT ELEMENT FOR EXTRACTION
+		  int startIndex=0;   //START INDEX TO CREATE SUB LIST OF CHILD ELEMENTS
+		  int endIndex=0;  //END INDEX TO CREATE SUB LIST OF CHILD ELEMENTS
 		  
+		  //LOGIC TO EXTRACT CHILD ELEMENTS
 		  for(int x=0; x<list.size(); x++){
 			  
 			  if(list.get(x).contains(" ")==true){
@@ -111,14 +128,16 @@ public class Element implements ElementInterface{
   	  }
   	  
   	   public void getChildElements(String parentElement){
+  		   
+  		   //METHOD TO GET ALL CHILD ELEMENTS OF PARENT ELEMENT
 		  
-		  String element="<"+parentElement;
-		  String endElement="</"+parentElement+">";
-		  int startIndex=0;
-		  int endIndex=0;
+		  String element="<"+parentElement;  //FORMATION OF PARENT ELEMENT FOR COMPARISON AGAINST LIST
+		  String endElement="</"+parentElement+">"; //FORMATION OF END PARENT ELEMENT FOR EXTRACTION
+		  int startIndex=0; //START INDEX TO CREATE SUB LIST OF CHILD ELEMENTS
+		  int endIndex=0; //END INDEX TO CREATE SUB LIST OF CHILD ELEMENTS
 		  
+		//LOGIC TO EXTRACT CHILD ELEMENTS
 		  for(int x=0; x<list.size(); x++){
-			  
 			  if(list.get(x).contains(" ")==true){
 				  String [] splitElement=list.get(x).split(" ");
 				  
@@ -149,11 +168,12 @@ public class Element implements ElementInterface{
 	  
 	  public void getElementByName(String elementName){
 		  
-		  //RETRIEVE ALL MATCHING ELEMENTS
+		  //METHOD TO GET ELEMENT BY NAME (RETRIEVE ALL MATCHING ELEMENTS)
 		  
-		  String element="<"+elementName;
+		  String element="<"+elementName; //FORMATION OF ELEMENT FOR COMPARISON AGAINST LIST ELEMENTS
 		  List<String> matchList=new ArrayList<String>();
 		  
+		 //LOGIC TO EXTRACT CHILD ELEMENTS
 		  for(int x=0; x<list.size(); x++){
 			  
 			  if(list.get(x).startsWith(element) && list.get(x).contains(" ")==true){
@@ -188,9 +208,10 @@ public class Element implements ElementInterface{
 		  
 		  //RETRIEVE ONLY SINGLE MATCHING ELEMENT BASED ON GIVEN INDEX
 		  
-		  String element="<"+elementName;
+		  String element="<"+elementName;  //FORMATION OF ELEMENT FOR COMPARISON AGAINST LIST ELEMENTS
 		  List<String> matchList=new ArrayList<String>();
 		  
+		  //LOGIC TO EXTRACT CHILD ELEMENTS
 		  for(int x=0; x<list.size(); x++){
 			  
 			  if(list.get(x).startsWith(element) && list.get(x).contains(" ")==true){
@@ -228,8 +249,11 @@ public class Element implements ElementInterface{
       
       public void getElementAllAttributes(String elementName){
     	  
-    	  String element="<"+elementName;
+    	  //METHOD TO GET ALL ATTRIBUTES WITH VALUES OF GIVEN ELEMENT
     	  
+    	  String element="<"+elementName;  //FORMATION OF ELEMENT FOR COMPARISON AGAINST LIST ELEMENTS
+    	  
+    	  //LOGIC TO EXTRACT CHILD ELEMENTS
     	  for(int x=0; x<list.size(); x++){
     		  
     		  if(list.get(x).startsWith(element) && list.get(x).contains(" ")==true){
@@ -254,8 +278,11 @@ public class Element implements ElementInterface{
       
       public void getElementAllAttributes(String elementName, String attributeName){
     	  
-  String element="<"+elementName;
+    	//METHOD TO GET ONLY SELECTED ATTRIBUTES WITH VALUES OF GIVEN ELEMENT
     	  
+          String element="<"+elementName;  //FORMATION OF ELEMENT FOR COMPARISON AGAINST LIST ELEMENTS
+    	  
+         //LOGIC TO EXTRACT CHILD ELEMENTS
     	  for(int x=0; x<list.size(); x++){
     		  
     		  if(list.get(x).startsWith(element) && list.get(x).contains(" ")==true){
